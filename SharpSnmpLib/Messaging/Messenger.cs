@@ -802,7 +802,64 @@ namespace Lextm.SharpSnmpLib.Messaging
         /// <param name="report">The report.</param>
         /// <returns>Returns row count if the OID is a table. Otherwise this value is meaningless.</returns>
         /// <remarks>This method supports SNMP v2c and v3.</remarks>
-        public static int BulkWalk(VersionCode version, IPEndPoint endpoint, OctetString community, OctetString contextName, ObjectIdentifier table, IList<Variable> list, int timeout, int maxRepetitions, WalkMode mode, IPrivacyProvider privacy, ISnmpMessage report)
+        public static int BulkWalk(
+            VersionCode version,
+            IPEndPoint endpoint,
+            OctetString community,
+            OctetString contextName,
+            ObjectIdentifier table,
+            IList<Variable> list,
+            int timeout,
+            int maxRepetitions,
+            WalkMode mode,
+            IPrivacyProvider privacy,
+            ISnmpMessage report)
+        {
+            BulkWalk(
+                version, 
+                endpoint, 
+                community, 
+                contextName, 
+                table, 
+                list, 
+                timeout, 
+                maxRepetitions, 
+                mode,
+                privacy,
+                report,
+                Header.Empty);
+        }
+        
+        /// <summary>
+        /// Walks (based on GET BULK).
+        /// </summary>
+        /// <param name="version">Protocol version.</param>
+        /// <param name="endpoint">Endpoint.</param>
+        /// <param name="community">Community name (v2c) or user name (v3).</param>
+        /// <param name="contextName">Context name.</param>
+        /// <param name="table">OID.</param>
+        /// <param name="list">A list to hold the results.</param>
+        /// <param name="timeout">The time-out value, in milliseconds. The default value is 0, which indicates an infinite time-out period. Specifying -1 also indicates an infinite time-out period.</param>
+        /// <param name="maxRepetitions">The max repetitions.</param>
+        /// <param name="mode">Walk mode.</param>
+        /// <param name="privacy">The privacy provider.</param>
+        /// <param name="report">The report.</param>
+        /// <param name="header">The IP Header to be used when the VersionCode is v2.</param>
+        /// <returns>Returns row count if the OID is a table. Otherwise this value is meaningless.</returns>
+        /// <remarks>This method supports SNMP v2c and v3.</remarks>
+        public static int BulkWalk(
+            VersionCode version, 
+            IPEndPoint endpoint, 
+            OctetString community, 
+            OctetString contextName, 
+            ObjectIdentifier table, 
+            IList<Variable> list, 
+            int timeout, 
+            int maxRepetitions, 
+            WalkMode mode, 
+            IPrivacyProvider privacy, 
+            ISnmpMessage report,
+            Header header)
         {
             if (list == null)
             {
@@ -1035,12 +1092,24 @@ namespace Lextm.SharpSnmpLib.Messaging
         /// <param name="next">The next.</param>
         /// <param name="privacy">The privacy provider.</param>
         /// <param name="report">The report.</param>
+        /// <param name="header">The IP Header to be used when the VersionCode is v2.</param>
         /// <returns>
         /// <c>true</c> if the specified seed has next item; otherwise, <c>false</c>.
         /// </returns>
         /// <remarks>This method supports SNMP v2c and v3.</remarks>
         [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "5#")]
-        private static bool BulkHasNext(VersionCode version, IPEndPoint receiver, OctetString community, OctetString contextName, Variable seed, int timeout, int maxRepetitions, out IList<Variable> next, IPrivacyProvider privacy, ref ISnmpMessage report)
+        private static bool BulkHasNext(
+            VersionCode version, 
+            IPEndPoint receiver, 
+            OctetString community, 
+            OctetString contextName, 
+            Variable seed, 
+            int timeout, 
+            int maxRepetitions, 
+            out IList<Variable> next, 
+            IPrivacyProvider privacy, 
+            ref ISnmpMessage report,
+            Header header)
         {
             if (version == VersionCode.V1)
             {

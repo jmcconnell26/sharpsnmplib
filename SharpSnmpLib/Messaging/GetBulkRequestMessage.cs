@@ -48,7 +48,42 @@ namespace Lextm.SharpSnmpLib.Messaging
         /// <param name="nonRepeaters">Non-repeaters.</param>
         /// <param name="maxRepetitions">Max repetitions.</param>
         /// <param name="variables">Variables.</param>
-        public GetBulkRequestMessage(int requestId, VersionCode version, OctetString community, int nonRepeaters, int maxRepetitions, IList<Variable> variables)
+        public GetBulkRequestMessage(
+            int requestId,
+            VersionCode version,
+            OctetString community,
+            int nonRepeaters,
+            int maxRepetitions,
+            IList<Variable> variables)
+        {
+            return new GetBulkRequestMessage(
+                requestId,
+                version,
+                community,
+                nonRepeaters,
+                maxRepetitions,
+                variables,
+                Header.Empty);
+        }
+        
+        /// <summary>
+        /// Creates a <see cref="GetBulkRequestMessage"/> with all contents.
+        /// </summary>
+        /// <param name="requestId">The request ID.</param>
+        /// <param name="version">Protocol version.</param>
+        /// <param name="community">Community name.</param>
+        /// <param name="nonRepeaters">Non-repeaters.</param>
+        /// <param name="maxRepetitions">Max repetitions.</param>
+        /// <param name="variables">Variables.</param>
+        /// <param name="header">The IP Header to be used.</param>
+        public GetBulkRequestMessage(
+            int requestId, 
+            VersionCode version, 
+            OctetString community, 
+            int nonRepeaters, 
+            int maxRepetitions, 
+            IList<Variable> variables, 
+            Header header)
         {
             if (variables == null)
             {
@@ -76,7 +111,7 @@ namespace Lextm.SharpSnmpLib.Messaging
             }
 
             Version = version;
-            Header = Header.Empty;
+            Header = header;
             Parameters = SecurityParameters.Create(community);
             var pdu = new GetBulkRequestPdu(
                 requestId,
